@@ -157,21 +157,35 @@ function removeItem(index) {
 async function checkout() {
     const cart = getCart();
 
-    const response = await fetch("https://blooberry-checkout-server.onrender.com", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ cartItems: cart })
-    });
+    try {
+        const response = await fetch("https://blooberry-checkout-server.onrender.com/create-checkout-session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ cartItems: cart })
+        });
 
-    const data = await response.json();
-    if (data.url) {
-        window.location.href = data.url;
-    } else {
-        alert("Något gick fel med betalningen.");
+        if (!response.ok) throw new Error("Serverfel vid betalning");
+
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert("Något gick fel med betalningen.");
+        }
+
+    } catch (error) {
+        console.error("Fel vid checkout:", error);
+        alert("Kunde inte ansluta till betalservern. Försök igen senare.");
     }
 }
+
+if (cart.length === 0) {
+    alert("Din kundvagn är tom!");
+    return;
+}
+
 
 
 // Kör render direkt om vi är på cart.html

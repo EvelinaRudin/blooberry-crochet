@@ -1,0 +1,1563 @@
+﻿/* Grundinställningar */
+@font-face {
+    font-family: 'Futura Bold';
+    src: url('../fonts/Futura-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    font-family: 'Futura Bold', sans-serif;
+    color: #6d74b9;
+    line-height: 1.6;
+    font-weight: bold;
+    /* fade-in */
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+    body.pattern-bg {
+        background-color: #f3f4fc;
+        background-image: url("../assets/images/backgroundbg.png"), url("../assets/images/backgroundbg.png");
+        background-repeat: repeat, repeat;
+        background-attachment: fixed, fixed;
+        background-size: 200px auto;
+        /* 
+      To control overlap: 
+      • first tile’s right edge is at (offset1 + 200px)
+      • second tile’s left edge is at offset2
+      Overlap = (offset1 + 200) – offset2
+
+      For ~20px overlap: 
+        offset1 = –90px  ⇒ right edge at 110px 
+        offset2 =   90px ⇒ left edge at  90px 
+        110 – 90 = 20px overlap
+    */
+        background-position: -5px 0, 90px 0;
+    }
+
+
+
+body.loaded {
+  opacity: 1;
+}
+footer {
+    background-color: #e8eaff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+header h1, footer p {
+    margin: 0.5rem 0;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #e8eaff;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #e8eaff; /* Ensure background fills when sticking */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+}
+
+.header-left {
+    flex: 1;
+}
+
+
+
+.header-nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.header-nav a {
+    position: relative;
+    text-decoration: none;
+    color: #484b78;
+    font-weight: bold;
+}
+
+.header-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background-color: #484b78;
+    transition: width 0.3s ease;
+}
+
+.header-nav a:hover::after {
+    width: 100%;
+}
+
+.header-nav a.active::after {
+    width: 100%;
+}
+
+.header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.header-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #484b78;
+    font-weight: bold;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+
+nav {
+    margin-top: 0.5rem;
+}
+
+nav a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: #484b78;
+    font-weight: bold;
+}
+
+/* Hjärtikon stil (används för både produktens hjärta och header-ikonen) */
+/* bump the heart hit-area to at least 44×44px for touch friendliness */
+.heart-icon {
+    display: inline-flex; /* allow padding around the glyph */
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem; /* ~44px in your rem scale */
+    height: 2.75rem;
+    padding: 0; /* you can also remove any margin */
+    cursor: pointer;
+    position: absolute; /* will keep your existing top/right */
+    top: 8px;
+    right: 8px;
+    /* keep the color/font-size from before */
+    font-size: 1.5em;
+}
+
+    .heart-icon.favorited {
+        color: #e74c3c;
+    }
+
+/* Header-ikon placering (så den ligger bredvid kundvagnsikonen) */
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+    .header-icons .heart-icon {
+        margin-right: 1rem; /* avstånd mellan favorit- och kundvagnsikon */
+        /* Om headern har liknande hover-effekter för ikoner, lägg till här: */
+    }
+
+        .header-icons .heart-icon:hover {
+            color: #555;
+        }
+
+/* Modalens bakgrund (halvtransparent overlay som täcker skärmen) */
+.modal {
+    display: none; /* gömd som standard */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* mörk transparent bakgrund */
+    z-index: 1000;
+}
+
+/* Modalens innehållsruta */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    margin: 10% auto;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px; /* rundade hörn */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* skugga bakom modalen */
+    position: relative;
+}
+
+/* Stäng-knapp (X) uppe i hörnet av modalens innehåll */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    line-height: 1;
+    cursor: pointer;
+    color: #333;
+}
+
+    .close-button:hover {
+        color: #000;
+    }
+
+/* Stil för favoritlistan */
+#favoritesList {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
+}
+
+.favorite-item {
+    margin-bottom: 0.5em;
+}
+
+    .favorite-item a {
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
+
+        .favorite-item a:hover {
+            text-decoration: underline;
+        }
+
+.favorite-thumb {
+    width: 50px;
+    height: auto;
+    border-radius: 4px;
+    margin-right: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* lätt skugga på bilderna */
+}
+
+/* STARTSIDAN === */
+/* Begränsa bredd på stora skärmar och centrera innehållet */
+.hero {
+    max-width: 1024px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem 2rem; /* öka sidopadding */
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Desktop: centrera och förhindra att de går utanför */
+@media (min-width: 700px) {
+    .cta-button-group {
+        flex-direction: column; /* håll vertikal layout */
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .cta-button {
+        width: 100%;
+        padding: 1.2rem;
+        font-size: 1.4rem;
+    }
+}
+
+/* Lägg till luft runt hela herosektionen på större skärmar */
+@media (min-width: 768px) {
+    .hero {
+        margin: 2rem auto;
+    }
+}
+
+/* Förbättra mobilupplevelsen lite också */
+@media (max-width: 767px) {
+    .hero {
+        margin: 1.5rem 1rem;
+    }
+}
+
+.hero-banner {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    margin: 0 auto 2rem auto;
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .hero-banner {
+        border-radius: 0;
+        box-shadow: none;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Justera rubrikens position närmare bannern */
+.hero-content h1 {
+    margin-top: 0.5rem;
+    font-size: 2.3rem;
+}
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem; /* lite buffert inuti också */
+}
+
+/* Subtil fade-in för hero */
+.hero.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+    .hero.fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #6d74b9;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #484b78;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Slide-up */
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+}
+
+/* Zoom-in */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.6s ease-out forwards;
+}
+
+
+.cta-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    margin-top: 2rem;
+}
+
+.cta-button {
+    display: flex; /* Flexbox for alignment */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%;
+    min-height: 70px;
+    padding: 1.2rem 1.5rem;
+    background-color: #ff94bd;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+
+.cta-button:hover {
+    background-color: #ffabcd;
+}
+
+@media (max-width: 600px) {
+.cta-button {
+        font-size: 1.25rem;
+        padding: 1.2rem;
+        min-height: 60px;
+    }
+}
+
+
+@media (max-width: 600px) {
+.cta-button {
+        font-size: 1rem;
+        padding: 1rem;
+        min-height: 60px;
+    }
+}
+
+.language-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.language-modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.language-modal-content h2 {
+    margin-bottom: 1rem;
+}
+
+.language-modal-content button {
+    margin: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.language-modal-content button:hover {
+    background-color: #ffabcd;
+}
+
+/* Produkter */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Max 3 per rad */
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.header-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #484b78;
+    font-weight: bold;
+}
+
+/* Hjärtikon stil (används för både produktens hjärta och header-ikonen) */
+.heart-icon {
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #888; /* basfärg för tomt hjärta */
+    user-select: none;
+    vertical-align: middle;
+    /* Grid hearts will be absolutely positioned via .product-card .heart-icon */
+}
+
+    .heart-icon.favorited {
+        color: #ff94bd; /* färg för fylld hjärta, t.ex. röd */
+    }
+
+/* HEADER-FAVORITE ICON */
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+    .header-icons .heart-icon {
+        margin-right: 1rem; /* avstånd mellan favorit- och kundvagnsikon */
+    }
+
+        .header-icons .heart-icon:hover {
+            color: #555;
+        }
+
+/* Position heart-icon on each product card (grid) */
+.product-card {
+    position: relative; /* needed for absolutely positioning the heart */
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+    .product-card .heart-icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 2;
+    }
+
+.product-card-link {
+    position: relative;
+    z-index: 1;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding-bottom: 0.5rem;
+}
+
+.product-card-link:hover {
+    opacity: 0.95;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 4 / 3; /* Gör bilden rektangulär */
+    object-fit: cover; /* Fyller rutan utan att bli deformerad */
+    border-radius: 6px;
+    margin: 0 auto;
+    display: block;
+}
+
+.product-card button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Futura Bold', sans-serif;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+    .product-card button:hover {
+        background-color: #ffabcd;
+    }
+
+/* Make the related-products section full-bleed width */
+.related-products-section {
+    width: 100vw; /* span the full viewport width */
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw; /* pull left edge to viewport edge */
+    margin-right: -50vw; /* pull right edge to viewport edge */
+    /* Optional: padding to align content with main container padding */
+    padding: 1rem 2rem;
+}
+
+
+/* Ensure product page sections stack vertically */
+.product-page {
+    display: block !important; /* override any flex or grid layout */
+}
+
+.related-products-section {
+    float: none; /* if it was floated or absolutely positioned, reset it */
+    display: block;
+}
+
+/* Sökfunktion och filter */
+.product-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.product-card button {
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.control-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 1rem;
+}
+
+.control-bar input[type="text"] {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.filter-toggle {
+    padding: 0.7rem 1rem;
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    white-space: nowrap;
+    font-family: 'Futura Bold', sans-serif;
+}
+
+.filter-toggle:hover {
+    background-color: #ffabcd;
+}
+
+.filter-panel {
+    display: none;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    animation: fadeInCart 0.3s ease-in-out;
+}
+
+.range-wrapper {
+    width: 100%;
+}
+
+.range-wrapper label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.range-wrapper input[type="range"] {
+    width: 100%;
+    appearance: none;
+    height: 6px;
+    background: #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin: 5px 0;
+    pointer-events: all;
+}
+
+.range-wrapper input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    background-color: #ff94bd;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px;
+}
+
+.color-filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#colorButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.color-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: 'Futura Bold', sans-serif;
+}
+
+.color-btn.active {
+    background-color: #ff94bd;
+    color: white;
+    border-color: #ff94bd;
+}
+
+/* Inget sökresultat */
+.empty-message {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+    margin-top: 2rem;
+}
+
+.product-detail {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.product-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+}
+
+/* Variant swatch “buttons” */
+
+
+    /* make the swatch image fill the smaller circle */
+.variant-btn img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.variant-picker {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.variant-btn {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 0.4rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+    .variant-btn:hover {
+        border-color: #ff94bd;
+        transform: scale(1.1);
+    }
+
+    .variant-btn.active {
+        border-color: #ff94bd;
+        box-shadow: 0 0 0 2px #ff94bd;
+    }
+
+.variant-swatch-img {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.variant-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    background: #484b78;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    top: -35px;
+    white-space: nowrap;
+}
+
+
+/* Notification Toast */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff94bd;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-family: 'Futura Bold', sans-serif;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeInCart 0.4s ease, fadeOutCart 0.4s ease 4s;
+    z-index: 999;
+}
+
+/* Fade-out */
+@keyframes fadeOutCart {
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* Fix search bar font */
+#searchInput {
+    font-family: 'Futura Bold', sans-serif;
+}
+
+/* Sticky footer layout fix */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main {
+    flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .range-wrapper {
+        width: 100%;
+    }
+}
+
+
+/* Kundvagn */
+/* 🛍️ Cart Item Style */
+.cart-item {
+    background-color: #fff;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    animation: fadeInCart 0.4s ease-in-out;
+}
+
+    .cart-item span {
+        flex: 1;
+        padding: 0.2rem 0.5rem;
+    }
+
+/* ✨ Cart Checkout Button */
+.cart-summary button {
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.cart-summary {
+    margin-top: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.cart-summary button:hover {
+    background-color: #ffabcd;
+    transform: scale(1.03);
+}
+
+/* ✨ Cart Change Quantity Button */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f4f0fa;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+}
+
+.quantity-controls button {
+    background-color: #ff94bd;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.quantity-controls button:hover {
+    background-color: #ffabcd;
+}
+
+/* ✨ Cart Remove Button */
+.remove-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #ffabcd;
+    transition: transform 0.2s ease;
+}
+
+.remove-btn:hover {
+    transform: scale(1.2);
+    color: #a04f96;
+}
+
+
+/* 🪄 Fade animation for items */
+@keyframes fadeInCart {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.cart-icon {
+    position: relative;
+    font-size: 1.2rem;
+}
+
+#cart-count {
+    background: #ff94bd;
+    color: white;
+    border-radius: 50%;
+    padding: 0px 6px;
+    font-size: 0.8rem;
+}
+
+/*Empty cart message*/
+#cart-items:empty::before {
+    content: "Din kundvagn är tom";
+    display: block;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+}
+
+
+/* Galleri */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+}
+
+    /* Only thumbnails inside the .gallery wrapper */
+    .gallery-grid .gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+
+.gallery-grid img:hover {
+    transform: scale(1.05);
+}
+
+/* Lightbox styling */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.3s;
+    cursor: default;
+    pointer-events: none;
+}
+
+
+
+    .lightbox.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+/* Force the lightbox image to keep its aspect ratio */
+.lightbox-img {
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 80%;
+    object-fit: contain;
+    cursor: auto;
+}
+
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+    .lightbox-nav button {
+        background: none;
+        border: none;
+        font-size: 3rem;
+        color: #fff;
+        cursor: pointer;
+        margin: 0 20px;
+        padding: 0 0.5rem;
+        pointer-events: auto;
+    }
+
+/* Subtle Page Section Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Kontakt */
+.contact-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Futura Bold', sans-serif;
+}
+
+.contact-form button {
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.contact-form button:hover {
+    background-color: #ffabcd;
+}
+
+
+/* Inloggning / Registrering */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.auth-form {
+    flex: 1 1 300px;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.auth-form h2 {
+    margin-bottom: 1rem;
+    color: #6d74b9;
+}
+
+.auth-form input {
+    display: block;
+    width: 100%;
+    max-width: 260px; /* 👈 BEGRÄNSAR bredden */
+    margin: 0.6rem auto; /* 👈 CENTRERAR fältet */
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Futura Bold', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+
+.auth-form button {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: #ff94bd;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.auth-form button:hover {
+    background-color: #ffabcd;
+}
+
+/* Mobiljustering */
+@media (max-width: 700px) {
+    .auth-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+
+#backToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff94bd;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#backToTop:hover {
+    background-color: #ffabcd;
+}
+
+
+/* Mobilvänlig */
+@media (max-width: 600px) {
+    nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+    .auth-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.product-detail {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+}
+
+.product-detail h1 {
+    margin-top: 1rem;
+    font-size: 1.8rem;
+}
+
+.product-detail p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.product-detail .product-image {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .product-detail {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+        max-width: 1000px;
+        padding: 3rem 2rem;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+    }
+
+        .product-detail img.product-image {
+            flex: 1;
+            max-width: 400px;
+        }
+
+    .product-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+        .product-detail img.product-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+        }
+
+    .product-info {
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .product-detail {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        .product-info {
+            text-align: left;
+        }
+
+        .product-detail img.product-image {
+            width: auto;
+            max-height: 500px;
+        }
+    }
+
+    /* Subtle scale and bounce on buttons and product cards */
+    button:hover,
+    .product-card:hover,
+    button:focus,
+    .product-card:focus {
+        transform: scale(1.05);
+    }
+
+
+    button, .product-card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+        button:hover, .product-card:hover {
+            animation: bounce-scale 0.4s both;
+        }
+
+        /* Press effect */
+        button:active, .product-card:active {
+            transform: scale(0.98);
+        }
+}
+
+/* ─── Micro-interactions for buttons & product cards ─── */
+button,
+.product-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+    button:hover,
+    .product-card:hover,
+    button:focus,
+    .product-card:focus {
+        transform: scale(1.05);
+    }
+
+    button:active,
+    .product-card:active {
+        transform: scale(0.98);
+        transition-duration: 0.1s;
+    }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Related (“You Might Also Like”) Section on each product page */
+.related-products {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+    .related-products h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #6d74b9;
+    }
+
+.related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.related-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    width: 200px;
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .related-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .related-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+
+    .related-card h3 {
+        margin: 0.75rem 0 0.5rem 0;
+        font-size: 1.1rem;
+    }
+
+    .related-card p {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    /* Ensure translations inside related cards pick up styling */
+    .related-card [data-i18n] {
+        display: inline-block;
+    }
+
+/* ─── Lightbox smooth‐zoom transition ─── */
+.lightbox-img {
+    transition: transform 0.3s ease;
+}
+
+.lightbox.visible .lightbox-img {
+    transform: scale(1);
+}
+
+
+/* 2b. Lightbox styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+    .lightbox.visible {
+        display: flex;
+    }
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 8px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+    .lightbox-nav.prev {
+        left: 1rem;
+    }
+
+    .lightbox-nav.next {
+        right: 1rem;
+    }
+
+    /* Base styles for hamburger button and mobile menu (default hidden) */
+.hamburger-btn {
+  display: none;              /* hide on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 5px 0;
+  background-color: #333;
+}
+
+/* Mobile menu panel (off-canvas on left) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;               /* hidden off-screen */
+  width: 250px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  transition: left 0.3s ease; /* animate slide-in */
+  z-index: 1000;
+}
+.mobile-menu.open {
+  left: 0;
+}
+
+/* Example styles for links inside mobile menu */
+.mobile-nav-links { list-style: none; padding: 0; margin: 60px 0 0; }
+.mobile-nav-links li a {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Example styles for icons section */
+.mobile-nav-icons { padding: 20px; }
+.mobile-nav-icons a {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Responsive rules for small screens */
+@media (max-width: 768px) {
+  .header-nav, .header-right {
+    display: none;           /* hide desktop nav and icons */
+  }
+  .hamburger-btn {
+    display: block;          /* show hamburger */
+  }
+  /* Ensure mobile menu panel is enabled on small screens */
+  .mobile-menu {
+    display: block;
+  }
+}

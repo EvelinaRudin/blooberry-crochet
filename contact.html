@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt | Blooberry Crochet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/icons/favicon.png" type="image/png" />
+    <meta name="description" content="Unika virkade produkter för alla åldrar. Handgjorda med kärlek.">
+    <meta name="keywords" content="virkning, amigurumi, handgjorda produkter, Blooberry Crochet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-left">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="Logotyp">
+                Blooberry Crochet
+            </a>
+        </div>
+
+        <nav class="header-nav">
+            <a href="products.html" data-i18n="nav.shop">Butik</a>
+            <a href="gallery.html" data-i18n="nav.gallery">Galleri</a>
+            <a href="contact.html" class="active" data-i18n="nav.contact">Kontakt</a>
+            <a href="about.html" data-i18n="nav.about">Om mig</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="#" id="openFavorites" class="header-icon" title="Visa favoriter">♡</a>
+            <a href="cart.html" class="header-icon">
+                🛒 <span data-i18n="nav.cart">Kundvagn</span>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="login.html" id="login-link" class="header-icon">
+                👤 <span id="login-text" data-i18n="nav.login">Logga in</span>
+            </a>
+            <a href="#" class="header-icon" id="lang-toggle" title="Change Language">
+                🌐 <span data-i18n="nav.language">SV</span>
+            </a>
+        </div>
+        <!-- Hamburger toggle button (visible only on mobile) -->
+        <button id="menu-toggle" class="hamburger-btn" aria-label="Open navigation"
+                aria-controls="mobile-menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Slide-in mobile menu panel -->
+    <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
+        <!-- Duplicate of navigation links -->
+        <ul class="mobile-nav-links">
+            <li><a href="products.html" class="active" data-i18n="nav.shop">Butik</a></li>
+            <li><a href="gallery.html" data-i18n="nav.gallery">Galleri</a></li>
+            <li><a href="contact.html" data-i18n="nav.contact">Kontakt</a></li>
+            <li><a href="about.html" data-i18n="nav.about">Om mig</a></li>
+
+            <!-- …other links… -->
+        </ul>
+        <!-- Duplicate of header-right icons/links -->
+        <div class="mobile-nav-icons">
+            <a href="#" id="openFavorites" class="header-icon" title="Visa favoriter">♡</a>
+            <a href="cart.html" class="header-icon">
+                🛒 <span data-i18n="nav.cart">Kundvagn</span>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="login.html" id="login-link" class="header-icon">
+                👤 <span id="login-text" data-i18n="nav.login">Logga in</span>
+            </a>
+            <a href="#" class="header-icon" id="lang-toggle" title="Change Language">
+                🌐 <span data-i18n="nav.language">SV</span>
+            </a>
+            <!-- …other icons/links… -->
+        </div>
+    </nav>
+
+    <main class="contact-container fade-in">
+        <h2 data-i18n="contact.title">Kontakta mig</h2>
+        <p data-i18n="contact.info">Har du frågor eller vill beställa något unikt? Fyll i formuläret nedan:</p>
+
+        <form id="contact-form"
+              name="contact-form"
+              class="contact-form"
+              action="https://script.google.com/macros/s/AKfycbxV7lMZeI9J7L8ZG88wn5jWCnIZJDaNibxli1etSAP2V2p1Nt0M4BW2H5mdgeImM1K7OA/exec"
+              method="POST"
+              target="hidden_iframe"
+              onsubmit="submitted = true;">
+
+            <label for="name">Namn:</label>
+            <input type="text" id="name" name="Name" required>
+
+            <label for="email">E-post:</label>
+            <input type="email" id="email" name="Email" required>
+
+            <label for="message">Meddelande:</label>
+            <textarea id="message" name="Message" rows="5" required></textarea>
+
+            <button type="submit">Skicka</button>
+        </form>
+
+    </main>
+
+    <!-- Modal för favoritlistan -->
+    <div id="favoritesModal" class="modal">
+        <div class="modal-content">
+            <!-- Stäng-knapp för modalen -->
+            <button id="closeModal" class="close-button" title="Stäng">&times;</button>
+            <h2 data-i18n="favorites.show">Favoriter</h2>
+            <!-- Lista över favoriter (fylls dynamiskt via JavaScript) -->
+            <ul id="favoritesList"></ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Blooberry Crochet</p>
+        <a href="https://www.instagram.com/blooberry_crochet/" target="_blank" class="social-icon" aria-label="Instagram">
+            <img src="assets/icons/instagram.png" alt="Instagram" />
+        </a>
+    </footer>
+
+    <button id="backToTop" title="Till toppen">↑</button>
+
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+    <script>
+        let submitted = false;
+        const form = document.getElementById('contact-form');
+        const iframe = document.getElementById('hidden_iframe');
+
+        iframe.addEventListener('load', () => {
+            // only run once right after a submit
+            if (!submitted) return;
+            submitted = false;
+            form.innerHTML = '<p>Tack för ditt meddelande! Vi hör av oss snart.</p>';
+        });
+    </script>
+
+    <script>
+        const btn = document.getElementById("backToTop");
+        window.onscroll = () => {
+            btn.style.display = window.scrollY > 200 ? "block" : "none";
+        };
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+    </script>
+
+    <script>
+        const faders = document.querySelectorAll('.fade-in');
+        const appear = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        faders.forEach(fader => appear.observe(fader));
+    </script>
+
+    <script src="js/main.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header-auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/favorites.js"></script>
+</body>
+</html>
+
+<script>
+    window.addEventListener("load", () => document.body.classList.add("loaded"));
+</script>
+

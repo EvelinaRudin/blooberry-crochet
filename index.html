@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooberry Crochet</title>
+    <link rel="icon" href="assets/icons/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+          integrity="sha512-b7f5b1eVvUJJuKZGi8/XGR3cni1vqQDr9ZF3Kn7p09xGxDXZgdLOEfHobSVHoG37kB/4YDv4Q6Xn3wY0CjXKNA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <meta name="description" content="Unika virkade produkter för alla åldrar. Handgjorda med kärlek.">
+    <meta name="keywords" content="virkning, amigurumi, handgjorda produkter, Blooberry Crochet">
+</head>
+<body class="pattern-bg">
+    <header class="site-header">
+        ...         <!-- Hamburger toggle button (visible only on mobile) -->
+        <button id="menu-toggle" class="hamburger-btn" aria-label="Open navigation"
+                aria-controls="mobile-menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Slide-in mobile menu panel -->
+    <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
+        <!-- Duplicate of navigation links -->
+        <ul class="mobile-nav-links">
+            <li><a href="products.html" class="active" data-i18n="nav.shop">Butik</a></li>
+            <li><a href="gallery.html" data-i18n="nav.gallery">Galleri</a></li>
+            <li><a href="contact.html" data-i18n="nav.contact">Kontakt</a></li>
+            <li><a href="about.html" data-i18n="nav.about">Om mig</a></li>
+
+            <!-- …other links… -->
+        </ul>
+        <!-- Duplicate of header-right icons/links -->
+        <div class="mobile-nav-icons">
+            <a href="#" id="openFavorites" class="header-icon" title="Visa favoriter">♡</a>
+            <a href="cart.html" class="header-icon">
+                🛒 <span data-i18n="nav.cart">Kundvagn</span>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="login.html" id="login-link" class="header-icon">
+                👤 <span id="login-text" data-i18n="nav.login">Logga in</span>
+            </a>
+            <a href="#" class="header-icon" id="lang-toggle" title="Change Language">
+                🌐 <span data-i18n="nav.language">SV</span>
+            </a>
+            <!-- …other icons/links… -->
+        </div>
+    </nav>
+
+    <!-- SPRÅKMODAL -->
+    <div id="languageModal" class="language-modal">
+        <div class="language-modal-content">
+            <h2>Välj språk / Choose language</h2>
+            <button onclick="setLanguage('sv')">Svenska</button>
+            <button onclick="setLanguage('en')">English</button>
+        </div>
+    </div>
+
+    <section class="hero fade-in">
+        <img src="assets/images/banner.png" alt="Banner" class="hero-banner" />
+        <div class="hero-content">
+            <h1 data-i18n="hero.title">Välkommen till Blooberry Crochet</h1>
+            <p data-i18n="hero.subtitle">Handgjort & virkat - skapat med kärlek.</p>
+            <div class="cta-button-group animate-zoom-in">
+                <a href="products.html" class="cta-button" data-i18n="nav.shop">Butik</a>
+                <a href="gallery.html" class="cta-button" data-i18n="nav.gallery">Galleri</a>
+                <a href="contact.html" class="cta-button" data-i18n="nav.contact">Kontakt</a>
+                <a href="about.html" class="cta-button" data-i18n="nav.about">Om mig</a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2025 Blooberry Crochet</p>
+        <a href="https://www.instagram.com/blooberry_crochet/" target="_blank" class="social-icon" aria-label="Instagram">
+            <img src="assets/icons/instagram.png" alt="Instagram" />
+        </a>
+    </footer>
+
+    <button id="backToTop" title="Till toppen">↑</button>
+    <script>
+        const btn = document.getElementById("backToTop");
+        window.onscroll = () => {
+            btn.style.display = window.scrollY > 200 ? "block" : "none";
+        };
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+    </script>
+
+    <script>
+        const faders = document.querySelectorAll('.fade-in');
+        const appear = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        faders.forEach(fader => appear.observe(fader));
+    </script>
+
+    <script src="js/translations.js"></script>
+    <script src="js/lang.js"></script>
+
+    <script>
+        function setLanguage(lang) {
+            console.log("Språk valt:", lang);
+            localStorage.setItem("language", lang);
+            document.getElementById("languageModal").style.display = "none";
+            applyTranslations(lang);
+        }
+
+        window.addEventListener("load", () => {
+            document.body.classList.add("loaded");
+
+            const modal = document.getElementById("languageModal");
+            const savedLang = localStorage.getItem("language");
+
+            if (!savedLang && modal) {
+                modal.style.display = "flex";
+            } else if (savedLang) {
+                applyTranslations(savedLang);
+            }
+        });
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/header-auth.js"></script>
+    <script src="js/favorites.js"></script>
+</body>
+</html>

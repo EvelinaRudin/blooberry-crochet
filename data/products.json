@@ -1,0 +1,56 @@
+[
+	{
+		"id": "gentle-blue",
+		"group": "gentle",
+		"name": "Mr. Gentle Amigurumi",
+		"stockKey": "Mr. Gentle Blue",
+		"price": 200,
+		"color": "Blue",
+		"image": "assets/images/gentle-blue.jpg"
+	},
+	{
+		"id": "gentle-pink",
+		"group": "gentle",
+		"name": "Mr. Gentle Amigurumi",
+		"stockKey": "Mr. Gentle Pink",
+		"price": 200,
+		"color": "Pink",
+		"image": "assets/images/gentle-pink.jpg"
+	},
+	{
+		"id": "bambee-yellow",
+		"group": "bambee",
+		"name": "Bambee Amigurumi",
+		"stockKey": "Bambee",
+		"price": 400,
+		"color": "Yellow",
+		"image": "assets/images/bambee-yellow.jpg"
+	},
+	{
+		"id": "bambee-red",
+		"group": "bambee",
+		"name": "Bambee Amigurumi",
+		"stockKey": "Bambee Red",
+		"price": 400,
+		"color": "Red",
+		"image": "assets/images/bambee-red.jpg"
+	},
+	{
+		"id": "daybear",
+		"group": "unique",
+		"name": "Dagbjörn Amigurumi",
+		"stockKey": "Dagbjörn",
+		"price": 500,
+		"color": "Blue Yellow",
+		"image": "assets/images/arkiv3.jpg"
+	},
+	{
+		"id": "heart-fairy",
+		"group": "unique",
+		"name": "Heart Fairy Amigurumi",
+		"stockKey": "Heart Fairy",
+		"price": 500,
+		"color": "White Pink",
+		"image": "assets/images/arkiv4.jpg"
+	}
+]

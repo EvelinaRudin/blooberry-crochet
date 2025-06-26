@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-sv="Produkter | Blooberry Crochet" data-en="Products | Blooberry Crochet">Produkter | Blooberry Crochet</title>
+    <link rel="icon" href="assets/icons/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+          integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <meta name="description" content="Unika virkade produkter för alla åldrar. Handgjorda med kärlek.">
+    <meta name="keywords" content="virkning, amigurumi, handgjorda produkter, Blooberry Crochet">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-left">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="Logotyp">
+                Blooberry Crochet
+            </a>
+        </div>
+
+        <nav class="header-nav">
+            <a href="products.html" class="active" data-i18n="nav.shop">Butik</a>
+            <a href="gallery.html" data-i18n="nav.gallery">Galleri</a>
+            <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+            <a href="about.html" data-i18n="nav.about">Om mig</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="#" id="openFavorites" class="header-icon" title="Visa favoriter">♡</a>
+            <a href="cart.html" class="header-icon">
+                🛒 <span data-i18n="nav.cart">Kundvagn</span>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="login.html" id="login-link" class="header-icon">
+                👤 <span id="login-text" data-i18n="nav.login">Logga in</span>
+            </a>
+            <a href="#" class="header-icon" id="lang-toggle" title="Change Language">
+                🌐 <span data-i18n="nav.language">SV</span>
+            </a>
+        </div>
+
+
+        <!-- Modal för favoritlistan -->
+        <div id="favoritesModal" class="modal">
+            <div class="modal-content">
+                <!-- Stäng-knapp för modalen -->
+                <button id="closeModal" class="close-button" title="Stäng">&times;</button>
+                <h2 data-i18n="favorites.show">Favoriter</h2>
+                <!-- Lista över favoriter (fylls dynamiskt via JavaScript) -->
+                <ul id="favoritesList"></ul>
+            </div>
+        </div>
+
+                 <!-- Hamburger toggle button (visible only on mobile) -->
+        <button id="menu-toggle" class="hamburger-btn" aria-label="Open navigation"
+                aria-controls="mobile-menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Slide-in mobile menu panel -->
+    <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
+        <!-- Duplicate of navigation links -->
+        <ul class="mobile-nav-links">
+            <li><a href="products.html" class="active" data-i18n="nav.shop">Butik</a></li>
+            <li><a href="gallery.html" data-i18n="nav.gallery">Galleri</a></li>
+            <li><a href="contact.html" data-i18n="nav.contact">Kontakt</a></li>
+            <li><a href="about.html" data-i18n="nav.about">Om mig</a></li>
+
+            <!-- …other links… -->
+        </ul>
+        <!-- Duplicate of header-right icons/links -->
+        <div class="mobile-nav-icons">
+            <a href="#" id="openFavorites" class="header-icon" title="Visa favoriter">♡</a>
+            <a href="cart.html" class="header-icon">
+                🛒 <span data-i18n="nav.cart">Kundvagn</span>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="login.html" id="login-link" class="header-icon">
+                👤 <span id="login-text" data-i18n="nav.login">Logga in</span>
+            </a>
+            <a href="#" class="header-icon" id="lang-toggle" title="Change Language">
+                🌐 <span data-i18n="nav.language">SV</span>
+            </a>
+            <!-- …other icons/links… -->
+        </div>
+    </nav>
+
+    <section class="product-controls">
+        <div class="control-bar">
+            <input type="text" id="searchInput" data-i18n="nav.search" placeholder="Sök produkt..." />
+            <button id="toggleFilter" class="filter-toggle" data-i18n="filter.button" title="Toggle filter panel">Filter</button>
+        </div>
+
+        <div id="filterPanel" class="filter-panel">
+            <div class="range-wrapper">
+                <label id="priceLabel" data-i18n="filter.range">Prisintervall: 0–1000 kr</label>
+                <input type="range" id="minPrice" />
+                <input type="range" id="maxPrice" />
+            </div>
+
+            <div class="color-filter-group">
+                <label data-i18n="product.colorLabel">Färg:</label>
+                <div id="colorButtons"></div>
+            </div>
+        </div>
+    </section>
+    <main class="product-grid" id="product-grid">
+        <p id="noResultsMessage" class="empty-message" style="display: none;" data-i18n="product.result">Inga produkter matchar din sökning.</p>
+
+        <div class="product-card" data-price="200" data-color="Blue Black">
+            <span class="heart-icon" data-id="gentle-blue">&#9825;</span>
+            <a href="product.html?id=gentle-blue" class="product-card-link">
+                <img src="assets/images/gentle-blue.jpg" alt="Virkad Mr. Gentle" loading="lazy">
+                <h3 data-i18n="product.gentle-blue">Mr. Gentle Amigurumi</h3>
+                <p><span class="product-price">200</span> <span data-i18n="product.currency">kr</span></p>
+            </a>
+            <button onclick="addToCart('Mr. Gentle Blue', 200)" data-i18n="product.add">Lägg i kundvagn</button>
+        </div>
+
+        <div class="product-card" data-price="400" data-color="Yellow Brown Green">
+            <span class="heart-icon" data-id="bambee-yellow">&#9825;</span>
+            <a href="product.html?id=bambee-yellow" class="product-card-link">
+                <img src="assets/images/bambee-yellow.jpg" alt="Virkad Bambee" loading="lazy">
+                <h3 data-i18n="product.bambee-yellow">Bambee Amigurumi</h3>
+                <p><span class="product-price">400</span> <span data-i18n="product.currency">kr</span></p>
+            </a>
+            <button onclick="addToCart('Bambee', 400)" data-i18n="product.add">Lägg i kundvagn</button>
+        </div>
+
+        <div class="product-card" data-price="500" data-color="Blue Yellow">
+            <span class="heart-icon" data-id="daybear">&#9825;</span>
+            <a href="product.html?id=daybear" class="product-card-link">
+                <img src="assets/images/arkiv3.jpg" alt="Virkad Dagbjörn" loading="lazy">
+                <h3 data-i18n="product.daybear">Dagbjörn Amigurumi</h3>
+                <p><span class="product-price">500</span> <span data-i18n="product.currency">kr</span></p>
+            </a>
+            <button onclick="addToCart('Dagbjörn', 500)" data-i18n="product.add">Lägg i kundvagn</button>
+        </div>
+
+        <div class="product-card" data-price="500" data-color="White Pink">
+            <span class="heart-icon" data-id="heart-fairy">&#9825;</span>
+            <a href="product.html?id=heart-fairy" class="product-card-link">
+                <img src="assets/images/arkiv4.jpg" alt="Virkad Heart Fairy" loading="lazy">
+                <h3 data-i18n="product.heart-fairy">Heart Fairy Amigurumi</h3>
+                <p><span class="product-price">500</span> <span data-i18n="product.currency">kr</span></p>
+            </a>
+            <button onclick="addToCart('Heart Fairy', 500)" data-i18n="product.add">Lägg i kundvagn</button>
+        </div>
+
+        <div class="product-card" data-price="200" data-color="Pink Black">
+            <span class="heart-icon" data-id="gentle-pink">&#9825;</span>
+            <a href="product.html?id=gentle-pink" class="product-card-link">
+                <img src="assets/images/gentle-pink.jpg" alt="Virkad Mr. Gentle" loading="lazy">
+                <h3 data-i18n="product.gentle-pink">Mr. Gentle Amigurumi</h3>
+                <p><span class="product-price">200</span> <span data-i18n="product.currency">kr</span></p>
+            </a>
+            <button onclick="addToCart('Mr. Gentle Pink', 200)" data-i18n="product.add">Lägg i kundvagn</button>
+        </div>
+        <!-- Lägg till fler produkter här -->
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Blooberry Crochet</p>
+        <a href="https://www.instagram.com/blooberry_crochet/" target="_blank" class="social-icon" aria-label="Instagram">
+            <img src="assets/icons/instagram.png" alt="Instagram" />
+        </a>
+    </footer>
+
+
+    <button id="backToTop" title="Till toppen">↑</button>
+    <script>
+        const btn = document.getElementById("backToTop");
+        window.onscroll = () => {
+            btn.style.display = window.scrollY > 200 ? "block" : "none";
+        };
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+    </script>
+
+    <script>
+        const faders = document.querySelectorAll('.fade-in');
+        const appear = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        faders.forEach(fader => appear.observe(fader));
+    </script>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const minSlider = document.getElementById("minPrice");
+        const maxSlider = document.getElementById("maxPrice");
+        const priceLabel = document.getElementById("priceLabel");
+        const filterPanel = document.getElementById("filterPanel");
+        const toggleFilter = document.getElementById("toggleFilter");
+        const colorButtons = document.getElementById("colorButtons");
+        let selectedColor = "alla";
+
+        const colorTranslations = {
+            blue: { sv: "Blå", en: "Blue" },
+            yellow: { sv: "Gul", en: "Yellow" },
+            pink: { sv: "Rosa", en: "Pink" },
+            brown: { sv: "Brun", en: "Brown" },
+            black: { sv: "Svart", en: "Black" },
+            white: { sv: "Vit", en: "White" },
+            purple: { sv: "Lila", en: "Purple" },
+            green: { sv: "Grön", en: "Green" },
+            red: { sv: "Röd", en: "Red" },
+            orange: { sv: "Orange", en: "Orange" },
+            grey: { sv: "Grå", en: "Grey" },
+            beige: { sv: "Beige", en: "Beige" }
+        };
+
+        toggleFilter.addEventListener("click", () => {
+            filterPanel.style.display = filterPanel.style.display === "flex" ? "none" : "flex";
+        });
+
+        function updateSliders() {
+            const cards = document.querySelectorAll(".product-card");
+            const prices = [...cards].map(c => parseInt(c.dataset.price));
+            const min = Math.min(...prices);
+            const max = Math.max(...prices);
+
+            minSlider.min = min;
+            minSlider.max = max;
+            maxSlider.min = min;
+            maxSlider.max = max;
+
+            minSlider.value = min;
+            maxSlider.value = max;
+
+            priceLabel.textContent = `Prisintervall: ${min}–${max} kr`;
+        }
+
+        function updateSliderVisual() {
+            let min = parseInt(minSlider.value);
+            let max = parseInt(maxSlider.value);
+
+            if (min > max) {
+                [minSlider.value, maxSlider.value] = [max, min];
+                [min, max] = [max, min];
+            }
+
+            const labelText =
+                currentLang === "sv"
+                    ? `Prisintervall: ${min}–${max} kr`
+                    : `Price range: ${min}–${max} SEK`;
+
+            priceLabel.textContent = labelText;
+        }
+
+
+        function createColorButtons() {
+            const cards = document.querySelectorAll(".product-card");
+            const colors = new Set();
+            cards.forEach(c => {
+                const splitColors = c.dataset.color.toLowerCase().split(" ");
+                splitColors.forEach(color => colors.add(color));
+            });
+
+            colorButtons.innerHTML = `<button data-color="alla" class="color-btn active" data-i18n="color.all">${currentLang === "sv" ? "Alla" : "All"
+                }</button>`;
+
+            colors.forEach(color => {
+                const key = `color.${color.toLowerCase()}`;
+                const label = translations?.[currentLang]?.[key] || color;
+                colorButtons.innerHTML += `<button data-color="${color}" class="color-btn" data-i18n="${key}">${label}</button>`;
+            });
+
+            // Event listeners
+            colorButtons.querySelectorAll("button").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    selectedColor = btn.dataset.color;
+                    document.querySelectorAll(".color-btn").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    filterProducts();
+                });
+            });
+        }
+
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase();
+            const min = parseInt(minSlider.value);
+            const max = parseInt(maxSlider.value);
+
+            updateSliderVisual();
+
+            const cards = document.querySelectorAll(".product-card");
+
+            cards.forEach(card => {
+                const name = card.querySelector("h3").textContent.toLowerCase();
+                const price = parseInt(card.dataset.price);
+                const color = card.dataset.color.toLowerCase();
+
+                const matchSearch = name.includes(query);
+                const matchPrice = price >= min && price <= max;
+                const colorList = color.split(" ");
+                const matchColor = selectedColor === "alla" || colorList.includes(selectedColor);
+
+
+                card.style.display = (matchSearch && matchPrice && matchColor) ? "block" : "none";
+
+                const visibleCards = [...cards].filter(card => card.style.display !== "none");
+                document.getElementById("noResultsMessage").style.display = visibleCards.length === 0 ? "block" : "none";
+
+            });
+        }
+
+        [minSlider, maxSlider, searchInput].forEach(el => el.addEventListener("input", filterProducts));
+
+        window.addEventListener("DOMContentLoaded", () => {
+            updateSliders();
+            createColorButtons();
+            applyTranslations(currentLang);
+            filterProducts();
+        });
+
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/header-auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/favorites.js"></script>
+</body>
+</html>
+
+<script>
+    window.addEventListener("load", () => document.body.classList.add("loaded"));
+</script>

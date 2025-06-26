@@ -18,23 +18,11 @@ body {
 }
 
     body.pattern-bg {
-        background-color: #f3f4fc;
-        background-image: url("../assets/images/backgroundbg.png"), url("../assets/images/backgroundbg.png");
+        background-color: #e8eaff;
+        background-image: url("../assets/images/background.png"), url("../assets/images/background.png");
         background-repeat: repeat, repeat;
         background-attachment: fixed, fixed;
-        background-size: 200px auto;
-        /* 
-      To control overlap: 
-      • first tile’s right edge is at (offset1 + 200px)
-      • second tile’s left edge is at offset2
-      Overlap = (offset1 + 200) – offset2
-
-      For ~20px overlap: 
-        offset1 = –90px  ⇒ right edge at 110px 
-        offset2 =   90px ⇒ left edge at  90px 
-        110 – 90 = 20px overlap
-    */
-        background-position: -5px 0, 90px 0;
+        background-size: 290px auto;
     }
 
 

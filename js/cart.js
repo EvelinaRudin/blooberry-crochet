@@ -153,12 +153,26 @@ function removeItem(index) {
     if (removedItem) showToast(`${removedItem} togs bort från kundvagnen`);
 }
 
-// Falsk checkout
-function checkout() {
-    alert("Tack");
-    localStorage.removeItem('cart');
-    renderCart();
+// Checkout
+async function checkout() {
+    const cart = getCart();
+
+    const response = await fetch("https://blooberry-checkout-server.onrender.com", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ cartItems: cart })
+    });
+
+    const data = await response.json();
+    if (data.url) {
+        window.location.href = data.url;
+    } else {
+        alert("Något gick fel med betalningen.");
+    }
 }
+
 
 // Kör render direkt om vi är på cart.html
 document.addEventListener("DOMContentLoaded", renderCart);

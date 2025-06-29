@@ -1509,19 +1509,19 @@ button,
 
 /* Mobile menu panel (off-canvas on left) */
 .mobile-menu {
-  position: fixed;
-  top: 0;
-  left: -250px;               /* hidden off-screen */
-  width: 250px;
-  height: 100vh;
-  background-color: #fff;
-  box-shadow: 2px 0 6px rgba(0,0,0,0.2);
-  overflow-y: auto;
-  transition: left 0.3s ease; /* animate slide-in */
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    right: -250px; /* hidden off-screen */
+    width: 250px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    transition: left 0.3s ease; /* animate slide-in */
+    z-index: 1000;
 }
 .mobile-menu.open {
-  left: 0;
+  right: 0;
 }
 
 /* Example styles for links inside mobile menu */

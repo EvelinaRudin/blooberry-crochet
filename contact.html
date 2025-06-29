@@ -123,23 +123,26 @@
 
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
     <script>
-        const contactForm = document.getElementById('contact-form');
-        const submitButton = contactForm.querySelector('button');
+        let submitted = false;
+        const form = document.getElementById('contact-form');
+        const iframe = document.getElementById('hidden_iframe');
+        const submitButton = form.querySelector('button');
 
-        contactForm.addEventListener('submit', (e) => {
-            // Inaktivera knappen direkt efter klick
+        form.addEventListener('submit', () => {
+            submitted = true;
             submitButton.disabled = true;
-            submitButton.textContent = 'Skickar...';
+            submitButton.textContent = '⏳ Skickar...';
         });
 
         iframe.addEventListener('load', () => {
             if (!submitted) return;
             submitted = false;
 
-            // Visa tacksida eller bekräftelse
+            // Visa bekräftelse
             form.innerHTML = '<p>Tack för ditt meddelande! Vi hör av oss snart.</p>';
         });
     </script>
+
 
 
     <script>

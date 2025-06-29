@@ -15,11 +15,6 @@ const translations = {
         "about.title": "Om Mig",
         "about.text": "Mitt namn är Evelina och jag är skaparen bakom alla mönster och kreationer hos Blooberry Crochet. Virkning är något jag hållit på med länge men jag började på riktigt i slutet av 2021. I början var det svårt och jag gjorde väldigt många misstag. Men det är så man lär sig och det fick mig bara att vilja bli bättre! Jag la all min fritid på virkningen och lärde mig snabbt teknikerna, för att sedan till och med kunna göra mina egna mönster. Virkning är det som jag längtar till efter en lång dag och det som underhåller mig under mina lediga dagar. Det är min passion och därför vill jag dela det jag gör och skapar med alla runt omkring!",
 
-        "contact.title": "Kontakta mig",
-        "contact.name": "Namn",
-        "contact.message": "Meddelande",
-        "contact.send": "Skicka",
-
         "product.add": "Lägg i kundvagn",
         "filter.button": "Filter",
         "filter.range": "Prisintervall: 0-1000 kr",
@@ -61,13 +56,14 @@ const translations = {
         "color.grey": "Grå",
         "color.beige": "Beige",
 
-        // Conntact
+        // Contact
         "contact.title": "Kontakta mig",
         "contact.info": "Har du frågor eller vill beställa något unikt? Fyll i formuläret nedan:",
         "contact.name": "Namn:",
         "contact.mail": "E-mail:",
         "contact.message": "Meddelande:",
         "contact.send": "Skicka",
+        "contact.thanks": "Tack för ditt meddelande! Vi hör av oss snart.",
     },
 
     en: {
@@ -85,11 +81,6 @@ const translations = {
 
         "about.title": "About Me",
         "about.text": "My name is Evelina and I am the creator behind all the patterns and creations at Blooberry Crochet. Crochet is something I have been doing for a long time, but I really started at the end of 2021. At first, it was hard and I made a lot of mistakes. But that’s how you learn, and it just made me want to get better! I spent all my free time on crocheting and quickly learned the techniques, even being able to create my own patterns. Crocheting is what I look forward to after a long day and what entertains me during my days off. It is my passion, and that’s why I want to share what I do and create with everyone around me!",
-
-        "contact.title": "Contact Me",
-        "contact.name": "Name",
-        "contact.message": "Message",
-        "contact.send": "Send",
 
         "product.add": "Add to cart",
         "filter.button": "Filter",
@@ -132,12 +123,13 @@ const translations = {
         "color.grey": "Grey",
         "color.beige": "Beige",
 
-        // Conntact
+        // Contact
         "contact.title": "Contact me",
         "contact.info": "Do you have questions or want to order something unique? Fill in the form below:",
         "contact.name": "Name:",
         "contact.mail": "E-mail:",
         "contact.message": "Message:",
         "contact.send": "Send",
+        "contact.thanks": "Thank you for your message! We will get back to you soon.",
     }
 };

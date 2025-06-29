@@ -1004,20 +1004,25 @@ body > main {
 
 
 /* Galleri */
+
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1rem;
-    padding: 2rem;
+    padding: 1rem;
+    justify-content: center; /* Centrera rutnätet */
 }
 
-    /* Only thumbnails inside the .gallery wrapper */
+    /* 📸 Bildstil i galleriet */
     .gallery-grid .gallery img {
         width: 100%;
+        max-width: 100%;
         height: auto;
         border-radius: 10px;
         transition: transform 0.3s ease;
     }
+
+
 
 
 .gallery-grid img:hover {
@@ -1548,4 +1553,14 @@ button,
   .mobile-menu {
     display: block;
   }
+}
+
+.about-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    margin: 0 auto 2rem auto;
+    display: block;
 }

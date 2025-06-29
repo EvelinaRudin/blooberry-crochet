@@ -30,6 +30,8 @@ const translations = {
         "favorites.show": "Favoriter",
         "favorites.none": "Inga favoriter ännu.",
 
+        "coming.soon": "Kommer snart!",
+
         "login.title": "Logga in",
         "login.button": "Logga in",
         "register.title": "Skapa Konto",
@@ -101,6 +103,8 @@ const translations = {
         "product.result": "No products match your search.",
         "favorites.show": "Favorites",
         "favorites.none": "INo favorites yet.",
+
+        "coming.soon": "Coming soon!",
 
         "login.title": "Log In",
         "login.button": "Sign In",

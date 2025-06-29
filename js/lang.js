@@ -7,21 +7,19 @@ function applyTranslations(lang) {
             if ('placeholder' in el) {
                 el.placeholder = translation;
             } else {
-                // Undvik att skriva över login-text om användaren är inloggad
                 if (el.id === "login-text" && localStorage.getItem("loggedInUser")) {
-                    return; // behåll texten "Logga ut (användare)"
+                    return;
                 }
                 el.textContent = translation;
             }
-
         }
     });
 
-    const toggleLabel = document.querySelector('#lang-toggle span');
-    if (toggleLabel) {
-        const nextLang = lang === "sv" ? "EN" : "SV";
-        toggleLabel.textContent = nextLang;
-    }
+    // Uppdatera språksymboler
+    const nextLang = lang === "sv" ? "EN" : "SV";
+    document.querySelectorAll('#lang-toggle span, #lang-toggle-mobile span').forEach(span => {
+        span.textContent = nextLang;
+    });
 
     localStorage.setItem("language", lang);
     currentLang = lang;
@@ -34,16 +32,16 @@ window.addEventListener("DOMContentLoaded", () => {
         applyTranslations(currentLang);
     }
 
-    const toggle = document.getElementById("lang-toggle");
-    if (toggle) {
-        toggle.addEventListener("click", e => {
-            e.preventDefault();
-
-            const next = currentLang === "sv" ? "en" : "sv";
-            applyTranslations(next);
-
-            // Update the data-i18n value to the new language so it reflects properly
-            toggle.querySelector("span").setAttribute("data-i18n", `nav.language`);
-        });
-    }
+    // Både desktop och mobilknappar
+    const toggles = [document.getElementById("lang-toggle"), document.getElementById("lang-toggle-mobile")];
+    toggles.forEach(toggle => {
+        if (toggle) {
+            toggle.addEventListener("click", e => {
+                e.preventDefault();
+                const next = currentLang === "sv" ? "en" : "sv";
+                applyTranslations(next);
+                toggle.querySelector("span").setAttribute("data-i18n", `nav.language`);
+            });
+        }
+    });
 });
